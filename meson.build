@@ -109,15 +109,15 @@ add_project_arguments(
     cc.get_supported_arguments(possible_cc_flags),
     language : 'c')
 
-subdir('configs')
+#subdir('configs')
 subdir('lib')
-subdir('src')
-subdir('misc')
+#subdir('src')
+#subdir('misc')
 # Don't build the tests unless we can run them (either natively or in an exe wrapper)
-build_tests = not meson.is_cross_build() or (meson.is_cross_build() and meson.has_exe_wrapper())
-if build_tests
-    subdir('tests')
-endif
+#build_tests = not meson.is_cross_build() or (meson.is_cross_build() and meson.has_exe_wrapper())
+#if build_tests
+#    subdir('tests')
+#endif
 
 message('\n'.join([
   '',
