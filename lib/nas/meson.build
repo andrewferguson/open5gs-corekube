@@ -17,4 +17,4 @@
 
 subdir('common')
 subdir('5gs')
-subdir('eps')
+#subdir('eps')
