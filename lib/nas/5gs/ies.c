@@ -1689,6 +1689,7 @@ int ogs_nas_5gs_decode_payload_container(ogs_nas_payload_container_t *payload_co
 
 int ogs_nas_5gs_encode_payload_container(ogs_pkbuf_t *pkbuf, ogs_nas_payload_container_t *payload_container)
 {
+
     uint16_t size = 0;
     uint16_t target;
 
@@ -1703,6 +1704,8 @@ int ogs_nas_5gs_encode_payload_container(ogs_pkbuf_t *pkbuf, ogs_nas_payload_con
     size = payload_container->length;
     ogs_assert(ogs_pkbuf_pull(pkbuf, size));
     memcpy(pkbuf->data - size, payload_container->buffer, size);
+
+    ogs_free(payload_container->buffer);
 
     ogs_trace("  PAYLOAD_CONTAINER - ");
     ogs_log_hexdump(OGS_LOG_TRACE, pkbuf->data - size, size);
@@ -1745,6 +1748,8 @@ int ogs_nas_5gs_encode_5gs_mobile_identity(ogs_pkbuf_t *pkbuf, ogs_nas_5gs_mobil
     size = mobile_identity->length;
     ogs_assert(ogs_pkbuf_pull(pkbuf, size));
     memcpy(pkbuf->data - size, mobile_identity->buffer, size);
+
+    ogs_free(mobile_identity->buffer);
 
     ogs_trace("  5GS_MOBILE_IDENTITY - ");
     ogs_log_hexdump(OGS_LOG_TRACE, pkbuf->data - size, size);
@@ -3631,6 +3636,8 @@ int ogs_nas_5gs_encode_extended_protocol_configuration_options(ogs_pkbuf_t *pkbu
     size = extended_protocol_configuration_options->length;
     ogs_assert(ogs_pkbuf_pull(pkbuf, size));
     memcpy(pkbuf->data - size, extended_protocol_configuration_options->buffer, size);
+
+    ogs_free(extended_protocol_configuration_options->buffer);
 
     ogs_trace("  EXTENDED_PROTOCOL_CONFIGURATION_OPTIONS - ");
     ogs_log_hexdump(OGS_LOG_TRACE, pkbuf->data - size, size);
