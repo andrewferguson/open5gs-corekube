@@ -27,6 +27,8 @@
 #include <stdarg.h>
 #endif
 
+#include <pthread.h>
+
 #include "ogs-core.h"
 
 #define TA_NOR              "\033[0m"       /* all off */
@@ -98,6 +100,8 @@ static OGS_LIST(domain_list);
 static ogs_log_t *add_log(ogs_log_type_e type);
 static int file_cycle(ogs_log_t *log);
 
+static char *log_thread(char *buf, char *last,
+        int use_color);
 static char *log_timestamp(char *buf, char *last,
         int use_color);
 static char *log_domain(char *buf, char *last,
@@ -401,6 +405,7 @@ void ogs_log_vprintf(ogs_log_level_e level, int id,
         last = logstr + OGS_HUGE_LEN;
 
         if (!content_only) {
+            p = log_thread(p, last, log->print.color);
             if (log->print.timestamp)
                 p = log_timestamp(p, last, log->print.color);
             if (log->print.domain)
@@ -443,6 +448,7 @@ void ogs_log_vprintf(ogs_log_level_e level, int id,
         last = logstr + OGS_HUGE_LEN;
 
         if (!content_only) {
+            p = log_thread(p, last, use_color);
             p = log_timestamp(p, last, use_color);
             p = log_level(p, last, level, use_color);
         }
@@ -535,6 +541,17 @@ static int file_cycle(ogs_log_t *log)
     ogs_assert(log->file.out);
 
     return 0;
+}
+
+static char *log_thread(char *buf, char *last,
+        int use_color)
+{
+    buf = ogs_slprintf(buf, last, "$%s%lu%s$ ",
+        use_color ? TA_FGC_BOLD_MAGENTA : "",
+        (unsigned long int)pthread_self(),
+        use_color ? TA_NOR : "");
+
+    return buf;
 }
 
 static char *log_timestamp(char *buf, char *last,
