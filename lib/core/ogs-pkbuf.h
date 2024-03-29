@@ -78,6 +78,8 @@ void ogs_pkbuf_pool_destroy(ogs_pkbuf_pool_t *pool);
 
 void ogs_default_pool_info(void);
 void ogs_pool_info(ogs_pkbuf_pool_t *pool);
+void ogs_default_pool_allocs(void);
+void ogs_pool_allocs(ogs_pkbuf_pool_t *pool);
 
 #define ogs_pkbuf_alloc(pool, size) \
     ogs_pkbuf_alloc_debug(pool, size, OGS_FILE_LINE)

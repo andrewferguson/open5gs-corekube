@@ -178,6 +178,21 @@ void ogs_pool_info(ogs_pkbuf_pool_t *pool) {
     ogs_info("Pool %s[%d]: %d", pool->cluster_big.name, pool->cluster_big.size, pool->cluster_big.avail);
 }
 
+void ogs_default_pool_allocs(void) {
+    ogs_pool_allocs(default_pool);
+}
+
+void ogs_pool_allocs(ogs_pkbuf_pool_t *pool) {
+    int i;
+    for (i = 0; i < pool->pkbuf.size; i++) {
+        ogs_pkbuf_t *pkbuf = pool->pkbuf.index[i];
+        if (pkbuf) {
+            ogs_log_print(OGS_LOG_ERROR, "SIZE[%d] is not freed. (%s)\n",
+                    pkbuf->len, pkbuf->file_line);
+        }
+    }
+}
+
 void ogs_pkbuf_pool_destroy(ogs_pkbuf_pool_t *pool)
 {
     ogs_assert(pool);
