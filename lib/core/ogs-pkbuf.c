@@ -161,6 +161,23 @@ ogs_pkbuf_pool_t *ogs_pkbuf_pool_create(ogs_pkbuf_config_t *config)
     free((pool)->index); \
 } while (0)
 
+void ogs_default_pool_info(void) {
+    ogs_pool_info(default_pool);
+}
+
+void ogs_pool_info(ogs_pkbuf_pool_t *pool) {
+    ogs_assert(pool);
+    ogs_info("Logging memory pool availability:");
+    ogs_info("Pool %s[%d]: %d", pool->cluster.name, pool->cluster.size, pool->cluster.avail);
+    ogs_info("Pool %s[%d]: %d", pool->cluster_128.name, pool->cluster_128.size, pool->cluster_128.avail);
+    ogs_info("Pool %s[%d]: %d", pool->cluster_256.name, pool->cluster_256.size, pool->cluster_256.avail);
+    ogs_info("Pool %s[%d]: %d", pool->cluster_512.name, pool->cluster_512.size, pool->cluster_512.avail);
+    ogs_info("Pool %s[%d]: %d", pool->cluster_1024.name, pool->cluster_1024.size, pool->cluster_1024.avail);
+    ogs_info("Pool %s[%d]: %d", pool->cluster_2048.name, pool->cluster_2048.size, pool->cluster_2048.avail);
+    ogs_info("Pool %s[%d]: %d", pool->cluster_8192.name, pool->cluster_8192.size, pool->cluster_8192.avail);
+    ogs_info("Pool %s[%d]: %d", pool->cluster_big.name, pool->cluster_big.size, pool->cluster_big.avail);
+}
+
 void ogs_pkbuf_pool_destroy(ogs_pkbuf_pool_t *pool)
 {
     ogs_assert(pool);
